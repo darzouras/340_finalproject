@@ -21,10 +21,10 @@ DROP TABLE IF EXISTS 'games';
 CREATE TABLE games (
 	gameID int NOT NULL AUTO_INCREMENT,
 	gameTitle varchar(50) NOT NULL,
-	releaseDay int NOT NULL,
-        releaseMonth int NOT NULL,
-        releaseYear int NOT NULL,
-	releaseSystem int NOT NULL,
+	releaseDay int,
+        releaseMonth int,
+        releaseYear int,
+	releaseSystem int,
 	FOREIGN KEY (releaseSystem) REFERENCES systems(systemID),
 	PRIMARY KEY (gameID)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
