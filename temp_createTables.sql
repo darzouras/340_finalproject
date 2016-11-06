@@ -39,7 +39,7 @@ CREATE TABLE systems (
 	releaseMonth int,
 	releaseDay int,
 	releaseYear int,
-	unitsSold int,
+	unitsSold int NOT NULL,
 	introPriceUS float,
 	UNIQUE KEY (systemName),
 	PRIMARY KEY (systemID)
