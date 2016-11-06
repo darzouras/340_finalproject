@@ -6,7 +6,8 @@
 DROP TABLE IF EXISTS 'characters';
 CREATE TABLE 'characters' (
 	'characterID' int(11) NOT NULL AUTO_INCREMENT,
-	'characterName' varchar(50) NOT NULL,
+	'fName' varchar(50) NOT NULL,
+	'lName' varchar(50),
 	'homeland' int(11) NOT NULL,
 	-- Race?
 	FOREIGN KEY ('homeland') REFERENCES locations('locationID'),
@@ -20,7 +21,7 @@ DROP TABLE IF EXISTS 'games';
 CREATE TABLE 'games' (
 	'gameID' int(11) NOT NULL AUTO_INCREMENT,
 	'gameTitle' varchar(50) NOT NULL,
-	'yearReleased' int(11) NOT NULL,
+	'releaseDate' date NOT NULL,
 	'systemRelease' int(11) NOT NULL,
 	FOREIGN KEY ('systemRelease') REFERENCES systems('systemID'),
 	PRIMARY KEY ('gameID')
