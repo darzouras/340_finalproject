@@ -8,7 +8,7 @@ CREATE TABLE characters (
 	characterID int(11) NOT NULL AUTO_INCREMENT,
 	name varchar(50) NOT NULL,
 	raceOrSpecies varchar(50),
-	homeland int(11) NOT NULL,
+	homeland int(11),
 	UNIQUE KEY (name),
 	FOREIGN KEY (homeland) REFERENCES locations(locationID),
 	PRIMARY KEY (characterID)
