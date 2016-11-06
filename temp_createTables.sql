@@ -4,48 +4,57 @@
 * CHARACTER ENTITY
 ***************************************/
 DROP TABLE IF EXISTS 'characters';
-CREATE TABLE 'characters' (
-	'characterID' int(11) NOT NULL AUTO_INCREMENT,
-	'characterName' varchar(50) NOT NULL,
-	'homeland' int(11) NOT NULL,
-	-- Race?
-	FOREIGN KEY ('homeland') REFERENCES locations('locationID'),
-	PRIMARY KEY ('characterID')
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+CREATE TABLE characters (
+	characterID int NOT NULL AUTO_INCREMENT,
+	name varchar(50) NOT NULL,
+	raceOrSpecies varchar(50),
+	homeland int NOT NULL,
+	UNIQUE KEY (name),
+	FOREIGN KEY (homeland) REFERENCES locations(locationID),
+	PRIMARY KEY (characterID)
+) ENGINE=innoDB DEFAULT CHARSET=latin1;
 
 /**************************************
 * GAMES ENTITY
 **************************************/
 DROP TABLE IF EXISTS 'games';
-CREATE TABLE 'games' (
-	'gameID' int(11) NOT NULL AUTO_INCREMENT,
-	'gameTitle' varchar(50) NOT NULL,
-	'yearReleased' int(11) NOT NULL,
-	'systemRelease' int(11) NOT NULL,
-	FOREIGN KEY ('systemRelease') REFERENCES systems('systemID'),
-	PRIMARY KEY ('gameID')
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+CREATE TABLE games (
+	gameID int NOT NULL AUTO_INCREMENT,
+	gameTitle varchar(50) NOT NULL,
+	releaseDay int NOT NULL,
+        releaseMonth int NOT NULL,
+        releaseYear int NOT NULL,
+	releaseSystem int NOT NULL,
+	FOREIGN KEY (releaseSystem) REFERENCES systems(systemID),
+	PRIMARY KEY (gameID)
+) ENGINE=innoDB DEFAULT CHARSET=latin1;
 
 /**************************************
 * SYSTEMS ENTITY
 **************************************/
 DROP TABLE IF EXISTS 'systems';
-CREATE TABLE 'systems' (
-	'systemID' int(11) NOT NULL AUTO_INCREMENT,
-	'systemName' varchar(50) NOT NULL,
-	PRIMARY KEY ('systemID')
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+CREATE TABLE systems (
+	systemID int NOT NULL AUTO_INCREMENT,
+	systemName varchar(50) NOT NULL,
+	releaseMonth int,
+	releaseDay int,
+	releaseYear int,
+	unitsSold bigint,
+	introPriceUS float,
+	PRIMARY KEY (systemID)
+) ENGINE=innoDB DEFAULT CHARSET=latin1;
 
 /***************************************
 * LOCATIONS ENTITY
 ***************************************/
 DROP TABLE IF EXISTS 'locations';
-CREATE TABLE 'locations' (
-	'locationID' int(11) NOT NULL AUTO_INCREMENT,
-	'locationName' varchar(50) NOT NULL,
-
-	PRIMARY KEY ('locationID')
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+CREATE TABLE locations (
+	locationID int NOT NULL AUTO_INCREMENT,
+	locationName varchar(50) NOT NULL,
+	environment varchar(50),
+	UNIQUE KEY (locationName),
+	PRIMARY KEY (locationID)
+) ENGINE=innoDB DEFAULT CHARSET=latin1;
 
 
 /***************************************
