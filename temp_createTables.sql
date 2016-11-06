@@ -71,4 +71,4 @@ CREATE TABLE gameChars (
 	FOREIGN KEY (cid) REFERENCES characters(characterID),
 	FOREIGN KEY (gid) REFERENCES games(gameID)
 	PRIMARY KEY (cid, gid)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=innoDB DEFAULT CHARSET=latin1;
