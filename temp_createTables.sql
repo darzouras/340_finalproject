@@ -27,7 +27,7 @@ CREATE TABLE games (
         releaseYear int(4),
 	releaseSystem int(11),
 	UNIQUE KEY (gameTitle),
-	FOREIGN KEY (setting) REFERENCES location(locationID),
+	FOREIGN KEY (setting) REFERENCES locations(locationID),
 	FOREIGN KEY (releaseSystem) REFERENCES systems(systemID),
 	PRIMARY KEY (gameID)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
