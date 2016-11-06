@@ -4,17 +4,6 @@
 * CHARACTER ENTITY
 ***************************************/
 DROP TABLE IF EXISTS 'characters';
-<<<<<<< HEAD
-CREATE TABLE 'characters' (
-	'characterID' int(11) NOT NULL AUTO_INCREMENT,
-	'fName' varchar(50) NOT NULL,
-	'lName' varchar(50),
-	'homeland' int(11) NOT NULL,
-	-- Race?
-	FOREIGN KEY ('homeland') REFERENCES locations('locationID'),
-	PRIMARY KEY ('characterID')
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-=======
 CREATE TABLE characters (
 	characterID int NOT NULL AUTO_INCREMENT,
 	name varchar(50) NOT NULL,
@@ -24,22 +13,11 @@ CREATE TABLE characters (
 	FOREIGN KEY (homeland) REFERENCES locations(locationID),
 	PRIMARY KEY (characterID)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
->>>>>>> 27f0968228392a34b04233c3bb29de91a0ef1679
 
 /**************************************
 * GAMES ENTITY
 **************************************/
 DROP TABLE IF EXISTS 'games';
-<<<<<<< HEAD
-CREATE TABLE 'games' (
-	'gameID' int(11) NOT NULL AUTO_INCREMENT,
-	'gameTitle' varchar(50) NOT NULL,
-	'releaseDate' date NOT NULL,
-	'systemRelease' int(11) NOT NULL,
-	FOREIGN KEY ('systemRelease') REFERENCES systems('systemID'),
-	PRIMARY KEY ('gameID')
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-=======
 CREATE TABLE games (
 	gameID int NOT NULL AUTO_INCREMENT,
 	gameTitle varchar(50) NOT NULL,
@@ -51,7 +29,6 @@ CREATE TABLE games (
 	FOREIGN KEY (releaseSystem) REFERENCES systems(systemID),
 	PRIMARY KEY (gameID)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
->>>>>>> 27f0968228392a34b04233c3bb29de91a0ef1679
 
 /**************************************
 * SYSTEMS ENTITY
