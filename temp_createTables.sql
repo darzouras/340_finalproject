@@ -41,6 +41,7 @@ CREATE TABLE systems (
 	releaseYear int,
 	unitsSold bigint,
 	introPriceUS float,
+	UNIQUE KEY (systemName),
 	PRIMARY KEY (systemID)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
 
