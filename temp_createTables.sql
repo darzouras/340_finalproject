@@ -63,10 +63,10 @@ CREATE TABLE locations (
 * GAME-CHARS MANY-TO-MANY RELATIONSHIP TABLE
 ***************************************/
 DROP TABLE IF EXISTS 'gameChars';
-CREATE TABLE 'gameChars' (
-	'cid' int(11) NOT NULL,
-	'gid' int(11) NOT NULL,
-	FOREIGN KEY ('cid') REFERENCES characters('characterID'),
-	FOREIGN KEY ('gid') REFERENCES games('gameID')
-	PRIMARY KEY ('cid', 'gid')
+CREATE TABLE gameChars (
+	cid int(11) NOT NULL,
+	gid int(11) NOT NULL,
+	FOREIGN KEY (cid) REFERENCES characters(characterID),
+	FOREIGN KEY (gid) REFERENCES games(gameID)
+	PRIMARY KEY (cid, gid)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
