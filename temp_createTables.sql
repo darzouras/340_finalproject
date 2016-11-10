@@ -1,23 +1,48 @@
-/* this is definitely in progress for now!!! 11/3 - DZ */
+-- In prerparation to start coding the php for the project,
+-- this has been tested and confirmed working when inported into
+-- PhpMyAdmin!
 
-/***************************************
-* CHARACTER ENTITY
-***************************************/
-DROP TABLE IF EXISTS 'characters';
+SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS locations;
+DROP TABLE IF EXISTS systems;
+DROP TABLE IF EXISTS characters;
+DROP TABLE IF EXISTS games;
+DROP TABLE IF EXISTS gameChars;
+SET FOREIGN_KEY_CHECKS=1;
+
+CREATE TABLE locations (
+	locationID int(11) NOT NULL AUTO_INCREMENT,
+	locationName varchar(50) NOT NULL,
+	environment varchar(50),
+	UNIQUE KEY (locationName),
+	PRIMARY KEY (locationID)
+) ENGINE=innoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE systems (
+	systemID int NOT NULL AUTO_INCREMENT,
+	systemName varchar(50) NOT NULL,
+	releaseMonth int(2),
+	releaseDay int(2),
+	releaseYear int(4),
+	unitsSold int(11) NOT NULL,
+	introPriceUS float,
+	UNIQUE KEY (systemName),
+	PRIMARY KEY (systemID)
+) ENGINE=innoDB DEFAULT CHARSET=latin1;
+
+
 CREATE TABLE characters (
 	characterID int(11) NOT NULL AUTO_INCREMENT,
 	name varchar(50) NOT NULL,
-	raceOrSpecies varchar(50),
-	homeland int(11),
+	raceOrSpecies varchar(50) NOT NULL,
+	homeland int(11) NOT NULL,
 	UNIQUE KEY (name),
 	FOREIGN KEY (homeland) REFERENCES locations(locationID),
 	PRIMARY KEY (characterID)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
 
-/**************************************
-* GAMES ENTITY
-**************************************/
-DROP TABLE IF EXISTS 'games';
+
 CREATE TABLE games (
 	gameID int(11) NOT NULL AUTO_INCREMENT,
 	gameTitle varchar(50) NOT NULL,
@@ -32,43 +57,11 @@ CREATE TABLE games (
 	PRIMARY KEY (gameID)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
 
-/**************************************
-* SYSTEMS ENTITY
-**************************************/
-DROP TABLE IF EXISTS 'systems';
-CREATE TABLE systems (
-	systemID int NOT NULL AUTO_INCREMENT,
-	systemName varchar(50) NOT NULL,
-	releaseMonth int(2),
-	releaseDay int(2),
-	releaseYear int(4),
-	unitsSold int(11) NOT NULL,
-	introPriceUS float,
-	UNIQUE KEY (systemName),
-	PRIMARY KEY (systemID)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
 
-/***************************************
-* LOCATIONS ENTITY
-***************************************/
-DROP TABLE IF EXISTS 'locations';
-CREATE TABLE locations (
-	locationID int(11) NOT NULL AUTO_INCREMENT,
-	locationName varchar(50) NOT NULL,
-	environment varchar(50),
-	UNIQUE KEY (locationName),
-	PRIMARY KEY (locationID)
-) ENGINE=innoDB DEFAULT CHARSET=latin1;
-
-
-/***************************************
-* GAME-CHARS MANY-TO-MANY RELATIONSHIP TABLE
-***************************************/
-DROP TABLE IF EXISTS 'gameChars';
 CREATE TABLE gameChars (
 	cid int(11) NOT NULL,
 	gid int(11) NOT NULL,
 	FOREIGN KEY (cid) REFERENCES characters(characterID),
-	FOREIGN KEY (gid) REFERENCES games(gameID)
+	FOREIGN KEY (gid) REFERENCES games(gameID),
 	PRIMARY KEY (cid, gid)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
