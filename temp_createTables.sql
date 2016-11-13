@@ -36,9 +36,9 @@ CREATE TABLE characters (
 	characterID int(11) NOT NULL AUTO_INCREMENT,
 	name varchar(50) NOT NULL,
 	raceOrSpecies varchar(50) NOT NULL,
-	homeland int(11) NOT NULL,
+	homeland int(11),
 	UNIQUE KEY (name),
-	FOREIGN KEY (homeland) REFERENCES locations(locationID),
+	FOREIGN KEY (homeland) REFERENCES locations(locationID) ON DELETE SET NULL,
 	PRIMARY KEY (characterID)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
 
@@ -52,8 +52,8 @@ CREATE TABLE games (
         releaseYear int(4),
 	releaseSystem int(11),
 	UNIQUE KEY (gameTitle),
-	FOREIGN KEY (setting) REFERENCES locations(locationID),
-	FOREIGN KEY (releaseSystem) REFERENCES systems(systemID),
+	FOREIGN KEY (setting) REFERENCES locations(locationID) ON DELETE SET NULL,
+	FOREIGN KEY (releaseSystem) REFERENCES systems(systemID) ON DELETE SET NULL,
 	PRIMARY KEY (gameID)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
 
@@ -61,7 +61,7 @@ CREATE TABLE games (
 CREATE TABLE gameChars (
 	cid int(11) NOT NULL,
 	gid int(11) NOT NULL,
-	FOREIGN KEY (cid) REFERENCES characters(characterID),
-	FOREIGN KEY (gid) REFERENCES games(gameID),
+	FOREIGN KEY (cid) REFERENCES characters(characterID) ON DELETE CASCADE,
+	FOREIGN KEY (gid) REFERENCES games(gameID)ON DELETE CASCADE,
 	PRIMARY KEY (cid, gid)
 ) ENGINE=innoDB DEFAULT CHARSET=latin1;
