@@ -1,8 +1,11 @@
 <?php
 // turn on error reporting
 ini_set('display_errors', 'On');
+
 // and connect to the database
 $mysqli = new mysqli("oniddb.cws.oregonstate.edu", "moyerjo-db", "EpoJM8FxtVi7AW2d", "moyerjo-db");
+// $mysqli = new mysqli("localhost", "root", "root", "nintendoDB");
+
 if($mysqli->connect_errno){
   echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 }
@@ -37,24 +40,24 @@ if($mysqli->connect_errno){
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.php">CS340 Nintendo Database</a> 
+			<a class="navbar-brand" href="index.php">CS340 Nintendo Database</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="index.php">Home</a></li>
-					<li><a href="locations.php">Locations</a></li> 
-					<li><a href="systems.php">Systems</a></li> 
-					<li class="active"><a href="characters.php">Characters</a></li> 
-					<li><a href="games.php">Games</a></li> 
-					<li><a href="gamecharacters.php">Game Characters</a></li> 
-					<li><a href="queries.php">General Queries</a></li> 
+					<li><a href="locations.php">Locations</a></li>
+					<li><a href="systems.php">Systems</a></li>
+					<li class="active"><a href="characters.php">Characters</a></li>
+					<li><a href="games.php">Games</a></li>
+					<li><a href="gamecharacters.php">Game Characters</a></li>
+					<li><a href="queries.php">General Queries</a></li>
 				</ul>
 			</div>
 		</div>
 		</nav>
 
  <div class = "container-fluid">
-   
+
     <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -69,7 +72,8 @@ if($mysqli->connect_errno){
 								<th>Homeland</th>
 							</tr>
 							<?php
-							
+                            // generate the table of characters!
+
 							if(!($stmt = $mysqli->prepare("SELECT  characterID, name, raceOrSpecies, locations.locationName FROM characters LEFT JOIN locations ON characters.homeland = locations.locationID ORDER BY name"))){
 								echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 							}
@@ -91,7 +95,7 @@ if($mysqli->connect_errno){
 			</div>
 		</div>
    </div>
-   
+
        <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -105,9 +109,9 @@ if($mysqli->connect_errno){
 						  <legend>Add a Character</legend>
 								<p>Name: <input type="text" class="form-control" name="cName" /></p>
 								<p>Race or Species: <input type="text" class="form-control" name="raceOrSpecies" /></p>
-								<p>Homeland: 
+								<p>Homeland:
 								<select name="homeland">
-								
+
 								<?php
 								if(!($stmt = $mysqli->prepare("SELECT locationID, locationName FROM locations"))){
 									echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
@@ -119,7 +123,7 @@ if($mysqli->connect_errno){
 								if(!$stmt->bind_result($id, $lname)){
 									echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
 								}
-								echo '<option value="-1"></option>\n';
+								echo '<option value="NULL"></option>\n';
 								while($stmt->fetch()){
 									echo '<option value=" '. $id . ' "> ' . $lname . '</option>\n';
 								}
@@ -136,7 +140,7 @@ if($mysqli->connect_errno){
 			</div>
 		</div>
    </div>
-   
+
           <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -148,7 +152,29 @@ if($mysqli->connect_errno){
 						<div class='form-group'>
 						<fieldset>
 						  <legend>Update Race or Species</legend>
-						  <p>Name: <input type="text" class="form-control" name="cName" /></p>
+						  <p>Name: <!-- <input type="text" class="form-control" name="cName" /></p> -->
+                          <select name="cName">
+
+                          <?php
+                          # Generate drop-down menu of each name already found in the character table
+                          if (!($stmt = $mysqli->prepare("SELECT characterID, name FROM characters ORDER BY name"))){
+                              echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
+                          }
+                          if (!$stmt->execute()){
+                              echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                          }
+                          if (!$stmt->bind_result($charID, $charName)){
+                              echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                          }
+                          echo '<option value=""></option>\n';
+                          while($stmt->fetch()){
+                              echo '<option value="'. $charID . '"> ' . $charName . '</option>';
+                          }
+                          $stmt->close();
+                          ?>
+                          </select>
+                      </p>
+
 						  <p>New Race or Species: <input type="text" class="form-control" name="raceOrSpecies" /></p>
 						  <p><input type="submit" class="btn btn-default" /></p>
 						</fieldset>
@@ -159,7 +185,7 @@ if($mysqli->connect_errno){
 			</div>
 		</div>
    </div>
-   
+
              <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -170,9 +196,31 @@ if($mysqli->connect_errno){
 						<!-- CHANGE THIS LATER, post this to the page handling the form data!!! -->
 						<div class='form-group'>
 						<fieldset>
-						  <legend>Delete Character</legend>
-						  <p>Name: <input type="text" class="form-control" name="cName" /></p>
-						  <p><input type="submit" class="btn btn-default" /></p>
+                            <legend>Delete Character</legend>
+                            <p>Name: <!-- <input type="text" class="form-control" name="cName" /></p> -->
+
+                            <select name="cName">
+
+                            <?php
+                            # Generate drop-down menu of each name already found in the character table
+                            if (!($stmt = $mysqli->prepare("SELECT characterID, name FROM characters ORDER BY name"))){
+                                echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
+                            }
+                            if (!$stmt->execute()){
+                                echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                            }
+                            if (!$stmt->bind_result($charID, $charName)){
+                                echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                            }
+                            echo '<option value=""></option>\n';
+                            while($stmt->fetch()){
+                                echo '<option value="'. $charID . '"> ' . $charName . '</option>';
+                            }
+                            $stmt->close();
+                            ?>
+                            </select>
+                            </p>
+                            <p><input type="submit" class="btn btn-default" /></p>
 						</fieldset>
 						</div>
 					  </form>
@@ -181,7 +229,7 @@ if($mysqli->connect_errno){
 			</div>
 		</div>
    </div>
-   
+
    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

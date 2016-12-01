@@ -2,20 +2,23 @@
 //Turn on error reporting
 ini_set('display_errors', 'On');
 //Connects to the database
+
 $mysqli = new mysqli("oniddb.cws.oregonstate.edu", "moyerjo-db", "EpoJM8FxtVi7AW2d", "moyerjo-db");
+// $mysqli = new mysqli("localhost", "root", "root", "nintendoDB");
+
 if(!$mysqli || $mysqli->connect_errno){
 	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 	}
-	
-if(!($stmt = $mysqli->prepare("INSERT INTO systems(systemName, releaseMonth, releaseDay, releaseYear, unitsSold, introPriceUS) VALUES (?,?,?,?,?,?)"))){
+
+if(!($stmt = $mysqli->prepare("DELETE FROM characters WHERE characterID=?"))){
 	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 }
-if(!($stmt->bind_param("siiiid",$_POST['consName'],$_POST['cMonth'],$_POST['cDay'],$_POST['cYear'],$_POST['unitsSold'],$_POST['price']))){
+if(!($stmt->bind_param("s",$_POST['cName']))){
 	echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
 }
 if(!$stmt->execute()){
 	echo "Execute failed: "  . $stmt->errno . " " . $stmt->error;
 } else {
-	echo "Added " . $stmt->affected_rows . " rows to systems.";
+	echo "Deleted " . $stmt->affected_rows . " rows from characters.";
 }
 ?>

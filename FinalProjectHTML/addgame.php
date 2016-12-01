@@ -2,11 +2,13 @@
 //Turn on error reporting
 ini_set('display_errors', 'On');
 //Connects to the database
-$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "moyerjo-db", "EpoJM8FxtVi7AW2d", "moyerjo-db");
+//$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "moyerjo-db", "EpoJM8FxtVi7AW2d", "moyerjo-db");
+$mysqli = new mysqli("localhost", "root", "root", "nintendoDB");
+
 if(!$mysqli || $mysqli->connect_errno){
 	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 	}
-	
+
 if($_POST['homeland'] >= 0){
 	if(!($stmt = $mysqli->prepare("INSERT INTO characters(name, raceOrSpecies, homeland) VALUES (?,?,?)"))){
 		echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
