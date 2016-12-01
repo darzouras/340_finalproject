@@ -3,6 +3,8 @@
 ini_set('display_errors', 'On');
 // and connect to the database
 $mysqli = new mysqli("oniddb.cws.oregonstate.edu", "moyerjo-db", "EpoJM8FxtVi7AW2d", "moyerjo-db");
+// $mysqli = new mysqli("localhost", "root", "root", "nintendoDB");
+
 if($mysqli->connect_errno){
   echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 }
@@ -37,24 +39,24 @@ if($mysqli->connect_errno){
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.php">CS340 Nintendo Database</a> 
+			<a class="navbar-brand" href="index.php">CS340 Nintendo Database</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="index.php">Home</a></li>
-					<li><a href="locations.php">Locations</a></li> 
-					<li><a href="systems.php">Systems</a></li> 
-					<li><a href="characters.php">Characters</a></li> 
-					<li><a href="games.php">Games</a></li> 
-					<li><a href="gamecharacters.php">Game Characters</a></li> 
-					<li class="active"><a href="queries.php">General Queries</a></li> 
+					<li><a href="locations.php">Locations</a></li>
+					<li><a href="systems.php">Systems</a></li>
+					<li><a href="characters.php">Characters</a></li>
+					<li><a href="games.php">Games</a></li>
+					<li><a href="gamecharacters.php">Game Characters</a></li>
+					<li class="active"><a href="queries.php">General Queries</a></li>
 				</ul>
 			</div>
 		</div>
 		</nav>
 
   <div class = "container-fluid">
-   
+
        <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -77,8 +79,8 @@ if($mysqli->connect_errno){
 		</div>
    </div>
 
-   
-  
+
+
           <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -101,20 +103,40 @@ if($mysqli->connect_errno){
 		</div>
    </div>
 
-   
- 
+
+
              <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
 				<div class="col-xs-2 col-md-2"></div>
 				<div class="col-xs-8 col-md-8 content-background">
 				<br>
-					  <form class="form-inline" method="post" action="temp_tables.php">
+					  <form class="form-inline" method="post" action="homelookup.php">
 						<!-- CHANGE THIS LATER, post this to the page handling the form data!!! -->
 						<div class='form-group'>
 						<fieldset>
 						  <legend>Find Characters With Specified Homeland</legend>
-						  <p>Homeland: <input type="text" class="form-control" name="homeland" /></p>
+						  <p>Homeland:
+                              <select name="homeland">
+
+                              <?php
+                              if(!($stmt = $mysqli->prepare("SELECT locationID, locationName FROM locations"))){
+                                  echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+                              }
+
+                              if(!$stmt->execute()){
+                                  echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                              }
+                              if(!$stmt->bind_result($id, $lname)){
+                                  echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                              }
+                              echo '<option value="NULL"></option>\n';
+                              while($stmt->fetch()){
+                                  echo '<option value=" '. $id . ' "> ' . $lname . '</option>\n';
+                              }
+                              $stmt->close();
+                              ?>
+                              </select>
 						  <p><input type="submit" class="btn btn-default" /></p>
 						</fieldset>
 					  </form>
@@ -124,29 +146,8 @@ if($mysqli->connect_errno){
 		</div>
    </div>
    </div>
-   
-       <div class="row">
-		<div class = "col-xs-12 col-md-12">
-			<div class="row row-eq-height">
-				<div class="col-xs-2 col-md-2"></div>
-				<div class="col-xs-8 col-md-8 content-background">
-						<h2>Characters With XXXX for a Homeland</h2>
-						<!-- CHANGE THIS LATER, mention the selected homeland!!! -->
-						<table class ="table table-striped">
-							<tr>
-								<th>Name</th>
-							</tr>
-							<tr>
-								<td>NAME TEST</td>
-							</tr>
-						</table>
-				</div>
-				<div class="col-xs-2 col-md-2"></div>
-			</div>
-		</div>
-   </div>
 
-   
+
              <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -168,7 +169,7 @@ if($mysqli->connect_errno){
 		</div>
    </div>
    </div>
-   
+
        <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -191,7 +192,7 @@ if($mysqli->connect_errno){
 			</div>
 		</div>
    </div>
-   
+
                 <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -214,7 +215,7 @@ if($mysqli->connect_errno){
 		</div>
    </div>
 
-   
+
        <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -235,7 +236,7 @@ if($mysqli->connect_errno){
 			</div>
 		</div>
    </div>
-   
+
                    <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -257,8 +258,8 @@ if($mysqli->connect_errno){
 			</div>
 		</div>
    </div>
-   
-   
+
+
    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
