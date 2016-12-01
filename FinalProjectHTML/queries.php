@@ -112,10 +112,9 @@ if($mysqli->connect_errno){
 				<div class="col-xs-8 col-md-8 content-background">
 				<br>
 					  <form class="form-inline" method="post" action="homelookup.php">
-						<!-- CHANGE THIS LATER, post this to the page handling the form data!!! -->
 						<div class='form-group'>
 						<fieldset>
-						  <legend>Find Characters With Specified Homeland</legend>
+						  <legend>Find Characters By Homeland</legend>
 						  <p>Homeland:
                               <select name="homeland">
 
@@ -154,13 +153,34 @@ if($mysqli->connect_errno){
 				<div class="col-xs-2 col-md-2"></div>
 				<div class="col-xs-8 col-md-8 content-background">
 				<br>
-					  <form class="form-inline" method="post" action="temp_tables.php">
+					  <form class="form-inline" method="post" action="systemlookup.php">
 						<!-- CHANGE THIS LATER, post this to the page handling the form data!!! -->
 						<div class='form-group'>
 						<fieldset>
 						  <legend>Find Games Released for a System</legend>
-						  <p>System: <input type="text" class="form-control" name="system" /></p>
-						  <p><input type="submit" class="btn btn-default" /></p>
+						  <p>System:
+
+                          <select name="system">
+                          <?php
+                          if(!($stmt = $mysqli->prepare("SELECT systemID, systemName FROM systems"))){
+                              echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+                          }
+
+                          if(!$stmt->execute()){
+                              echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                          }
+                          if(!$stmt->bind_result($id, $sname)){
+                              echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                          }
+                          echo '<option value="NULL"></option>\n';
+                          while($stmt->fetch()){
+                              echo '<option value=" '. $id . ' "> ' . $sname . '</option>\n';
+                          }
+                          $stmt->close();
+                          ?>
+                          </select>
+                          </p>
+                          <p><input type="submit" class="btn btn-default" /></p>
 						</fieldset>
 					  </form>
 				</div>
@@ -168,29 +188,6 @@ if($mysqli->connect_errno){
 			</div>
 		</div>
    </div>
-   </div>
-
-       <div class="row">
-		<div class = "col-xs-12 col-md-12">
-			<div class="row row-eq-height">
-				<div class="col-xs-2 col-md-2"></div>
-				<div class="col-xs-8 col-md-8 content-background">
-						<h2>Games Released for XXXXX System</h2>
-						<!-- CHANGE THIS LATER, mention the selected system!!! -->
-						<table class ="table table-striped">
-							<tr>
-								<th>Name</th>
-								<th>Release Year</th>
-							</tr>
-							<tr>
-								<td>NAME TEST</td>
-								<td>YEAR TEST</td>
-							</tr>
-						</table>
-				</div>
-				<div class="col-xs-2 col-md-2"></div>
-			</div>
-		</div>
    </div>
 
                 <div class="row">
