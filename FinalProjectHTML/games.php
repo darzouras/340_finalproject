@@ -2,8 +2,8 @@
 // turn on error reporting
 ini_set('display_errors', 'On');
 // and connect to the database
-//$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "moyerjo-db", "EpoJM8FxtVi7AW2d", "moyerjo-db");
-$mysqli = new mysqli("localhost", "root", "root", "nintendoDB");
+$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "moyerjo-db", "EpoJM8FxtVi7AW2d", "moyerjo-db");
+// $mysqli = new mysqli("localhost", "root", "root", "nintendoDB");
 
 if($mysqli->connect_errno){
   echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
@@ -101,29 +101,57 @@ if($mysqli->connect_errno){
 				<div class="col-xs-2 col-md-2"></div>
 				<div class="col-xs-8 col-md-8 content-background">
 				<br>
-					  <form class="form-inline" method="post" action="temp_tables.php">
-						<!-- CHANGE THIS LATER, post this to the page handling the form data!!! -->
+					  <form class="form-inline" method="post" action="addgame.php">
+
 						<div class='form-group'>
 						<fieldset>
 						  <legend>Add a Game</legend>
 								<p>Title: <input type="text" class="form-control" name="gName" /></p>
-								<p>US Release Day: <input type="text" class="form-control" name="cDay" /></p>
-								<p>US Release Month: <input type="text" class="form-control" name="cMonth" /></p>
-								<p>US Release Year: <input type="text" class="form-control" name="cYear" /></p>
+								<p>US Release Day: <input type="text" class="form-control" name="gDay" /></p>
+								<p>US Release Month: <input type="text" class="form-control" name="gMonth" /></p>
+								<p>US Release Year: <input type="text" class="form-control" name="gYear" /></p>
 								<p>Setting:
-								<select>
-								<!-- placeholder for now- this will be dynamically generated
-								the value will hold the id!!!!-->
-									<option value="test1">Test setting1</option>
-									<option value="test2">Test setting2</option>
-								</select>
+								<select name="gSetting">
+                                    <?php
+                                        // Generate a list of existing settings!!
+                                        if(!($stmt = $mysqli->prepare("SELECT locationID, locationName FROM locations"))){
+                                            echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+                                        }
+
+                                        if(!$stmt->execute()){
+                                            echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                                        }
+                                        if(!$stmt->bind_result($id, $lname)){
+                                            echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                                        }
+                                        echo '<option value="NULL"></option>\n';
+                                        while($stmt->fetch()){
+                                            echo '<option value=" '. $id . ' "> ' . $lname . '</option>\n';
+                                        }
+                                        $stmt->close();
+                                    ?>
+                                </select>
 								</p>
 								<p>Release System:
-								<select>
-								<!-- placeholder for now- this will be dynamically generated
-								the value will hold the id!!!!-->
-									<option value="test1">Test system1</option>
-									<option value="test2">Test system2</option>
+								<select name="gSystem">
+                                    <?php
+                                        // generate a list of existing systems!
+                                        if(!($stmt = $mysqli->prepare("SELECT systemID, systemName FROM systems"))){
+                                            echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+                                        }
+
+                                        if(!$stmt->execute()){
+                                            echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                                        }
+                                        if(!$stmt->bind_result($id, $sname)){
+                                            echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                                        }
+                                        echo '<option value="NULL"></option>\n';
+                                        while($stmt->fetch()){
+                                            echo '<option value=" '. $id . ' "> ' . $sname . '</option>\n';
+                                        }
+                                        $stmt->close();
+                                    ?>
 								</select>
 								</p>
 						  <p><input type="submit" class="btn btn-default" /></p>
