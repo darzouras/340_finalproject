@@ -3,6 +3,7 @@
 ini_set('display_errors', 'On');
 // and connect to the database
 $mysqli = new mysqli("oniddb.cws.oregonstate.edu", "moyerjo-db", "EpoJM8FxtVi7AW2d", "moyerjo-db");
+
 if($mysqli->connect_errno){
   echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 }
@@ -37,24 +38,24 @@ if($mysqli->connect_errno){
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.php">CS340 Nintendo Database</a> 
+			<a class="navbar-brand" href="index.php">CS340 Nintendo Database</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="index.php">Home</a></li>
-					<li><a href="locations.php">Locations</a></li> 
-					<li><a href="systems.php">Systems</a></li> 
-					<li><a href="characters.php">Characters</a></li> 
-					<li><a href="games.php">Games</a></li> 
-					<li class="active"><a href="gamecharacters.php">Game Characters</a></li> 
-					<li><a href="queries.php">General Queries</a></li> 
+					<li><a href="locations.php">Locations</a></li>
+					<li><a href="systems.php">Systems</a></li>
+					<li><a href="characters.php">Characters</a></li>
+					<li><a href="games.php">Games</a></li>
+					<li class="active"><a href="gamecharacters.php">Game Characters</a></li>
+					<li><a href="queries.php">General Queries</a></li>
 				</ul>
 			</div>
 		</div>
 		</nav>
 
   <div class = "container-fluid">
-   
+
     <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -67,7 +68,7 @@ if($mysqli->connect_errno){
 								<th>Character</th>
 							</tr>
 							<?php
-							
+
 							if(!($stmt = $mysqli->prepare("SELECT  games.gameTitle, characters.name FROM gameChars INNER JOIN characters ON characters.characterID = gameChars.cid INNER JOIN games ON games.gameID = gameChars.gid ORDER BY games.gameTitle"))){
 								echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 							}
@@ -89,7 +90,7 @@ if($mysqli->connect_errno){
 			</div>
 		</div>
    </div>
-   
+
        <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -101,7 +102,7 @@ if($mysqli->connect_errno){
 						<div class='form-group'>
 						<fieldset>
 						  <legend>Add a Game-Character Relationship</legend>
-						  <p>Game: 
+						  <p>Game:
 								<select name="gameid">
 								<!-- placeholder for now- this will be dynamically generated
 								the value will hold the id!!!!-->
@@ -123,12 +124,12 @@ if($mysqli->connect_errno){
 								?>
 								</select>
 								</p>
-						  <p>Character: 
+						  <p>Character:
 								<select name="charid">
 								<!-- placeholder for now- this will be dynamically generated
 								the value will hold the id!!!!-->
 								<?php
-								
+
 								if(!($stmt = $mysqli->prepare("SELECT characterID, name FROM characters ORDER BY name"))){
 									echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 								}
@@ -155,8 +156,8 @@ if($mysqli->connect_errno){
 			</div>
 		</div>
    </div>
-   
-   
+
+
              <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -168,12 +169,12 @@ if($mysqli->connect_errno){
 						<div class='form-group'>
 						<fieldset>
 						  <legend>Delete a Game-Character Relationship</legend>
-						  		<p>Game: 
+						  		<p>Game:
 								<select name="gameid">
 								<!-- placeholder for now- this will be dynamically generated
 								the value will hold the id!!!!-->
 								<?php
-								
+
 								if(!($stmt = $mysqli->prepare("SELECT gameID, gameTitle FROM games ORDER BY gameTitle"))){
 									echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 								}
@@ -191,7 +192,7 @@ if($mysqli->connect_errno){
 								?>
 								</select>
 								</p>
-								<p>Character: 
+								<p>Character:
 								<select name="charid">
 								<!-- placeholder for now- this will be dynamically generated
 								the value will hold the id!!!!-->
@@ -222,7 +223,7 @@ if($mysqli->connect_errno){
 			</div>
 		</div>
    </div>
-   
+
    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
