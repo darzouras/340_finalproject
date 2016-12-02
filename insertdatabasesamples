@@ -1,0 +1,29 @@
+INSERT INTO locations (locationName, environment) VALUES 
+("Hyrule", "Temperate"), 
+("Mushroom Kingdom", "Grassland"), 
+("Dinosaur Land", "Grassland"),
+("Gunship", "Space Ship"), 
+("Bowser's Castle", "Volcano"),
+("Zebes", "Cavernous Planet");
+
+INSERT INTO systems (systemName, releaseMonth, releaseDay, releaseYear, unitsSold, introPriceUS) VALUES
+("Nintendo Entertainment System", 08, 14, 1985, 61910000, 299.00),
+("Super Nintendo Entertainment System", 08, 23, 1991, 49100000, 199.00),
+("Nintendo Wii", 11, 19, 2006, 101630000, 249.99),
+("Nintendo 64", 09, 26, 1906, 32930000, 199.99);
+
+INSERT INTO characters (name, raceOrSpecies, homeland) VALUES
+("Zelda", "Hylian", 1),
+("Link", "Hylian", 1),
+("Mario", "Human", 2),
+("Yoshi", "Dinosaur", 3),
+("Ganon", "Gerudo", 1),
+("Princess Peach", "Human", 2),
+("Toad", "Toad", 2),
+("Samus", "Human", 3);
+
+INSERT INTO games (gameTitle, setting, releaseDay, releaseMonth, releaseYear, releaseSystem) VALUES
+("The Legend of Zelda: A Link to the Past", 1, 21, 11, 1991, 2),
+("The Legend of Zelda", 1, 21, 2, 1986, 1),
+("Super Metroid", 6, 18,4,1994, 2),
+("Super Mario World", 4, 13, 08, 1991, 2);
