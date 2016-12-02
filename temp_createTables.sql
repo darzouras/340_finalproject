@@ -1,6 +1,3 @@
--- In prerparation to start coding the php for the project,
--- this has been tested and confirmed working when inported into
--- PhpMyAdmin!
 
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS locations;

@@ -2,8 +2,8 @@
 // turn on error reporting
 ini_set('display_errors', 'On');
 // and connect to the database
-$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "moyerjo-db", "EpoJM8FxtVi7AW2d", "moyerjo-db");
-// $mysqli = new mysqli("localhost", "root", "root", "nintendoDB");
+// $mysqli = new mysqli("oniddb.cws.oregonstate.edu", "moyerjo-db", "EpoJM8FxtVi7AW2d", "moyerjo-db");
+$mysqli = new mysqli("localhost", "root", "root", "nintendoDB");
 
 if($mysqli->connect_errno){
   echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
@@ -57,6 +57,7 @@ if($mysqli->connect_errno){
 
   <div class = "container-fluid">
 
+<!-- LOOK UP LOCATIONS BASED ON ENVIRONMENT -->
        <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -64,7 +65,6 @@ if($mysqli->connect_errno){
 				<div class="col-xs-8 col-md-8 content-background">
 				<br>
 					  <form class="form-inline" method="post" action="envlookup.php">
-						<!-- CHANGE THIS LATER, post this to the page handling the form data!!! -->
 						<div class='form-group'>
 						<fieldset>
 						  <legend>Find Locations With a Certain Environment</legend>
@@ -80,7 +80,7 @@ if($mysqli->connect_errno){
    </div>
 
 
-
+<!-- LOOK UP SYSTEMS ON MINIMUM UNITS SOLD -->
           <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -88,10 +88,9 @@ if($mysqli->connect_errno){
 				<div class="col-xs-8 col-md-8 content-background">
 				<br>
 					  <form class="form-inline" method="post" action="unitssoldlookup.php">
-						<!-- CHANGE THIS LATER, post this to the page handling the form data!!! -->
 						<div class='form-group'>
 						<fieldset>
-						  <legend>Find Systems Based on Units Sold</legend>
+						  <legend>Look Up Systems Based on Units Sold</legend>
 						  <p>Min Units Sold: <input type="text" class="form-control" name="minUnitsSold" /></p>
 						  <p><input type="submit" class="btn btn-default" /></p>
 						</fieldset>
@@ -104,7 +103,7 @@ if($mysqli->connect_errno){
    </div>
 
 
-
+<!-- LOOK UP CHARACTERS BY HOMELAND -->
              <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -114,7 +113,7 @@ if($mysqli->connect_errno){
 					  <form class="form-inline" method="post" action="homelookup.php">
 						<div class='form-group'>
 						<fieldset>
-						  <legend>Find Characters By Homeland</legend>
+						  <legend>Look Up Characters By Homeland</legend>
 						  <p>Homeland:
                               <select name="homeland">
 
@@ -147,6 +146,7 @@ if($mysqli->connect_errno){
    </div>
 
 
+<!-- LOOK UP GAMES BY SYSTEM -->
              <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
@@ -154,7 +154,6 @@ if($mysqli->connect_errno){
 				<div class="col-xs-8 col-md-8 content-background">
 				<br>
 					  <form class="form-inline" method="post" action="systemlookup.php">
-						<!-- CHANGE THIS LATER, post this to the page handling the form data!!! -->
 						<div class='form-group'>
 						<fieldset>
 						  <legend>Find Games Released for a System</legend>
@@ -190,18 +189,38 @@ if($mysqli->connect_errno){
    </div>
    </div>
 
+<!-- LOOK UP CHARACTERS BASED ON GAME -->
                 <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
 				<div class="col-xs-2 col-md-2"></div>
 				<div class="col-xs-8 col-md-8 content-background">
 				<br>
-					  <form class="form-inline" method="post" action="temp_tables.php">
-						<!-- CHANGE THIS LATER, post this to the page handling the form data!!! -->
+					  <form class="form-inline" method="post" action="gamelookup.php">
 						<div class='form-group'>
 						<fieldset>
-						  <legend>Find Characters in a Game</legend>
-						  <p>Game: <input type="text" class="form-control" name="gameTitle" /></p>
+						  <legend>Find Characters by Game</legend>
+						  <p>Game:
+                              <select name="gameTitle">
+                              <?php
+                              if(!($stmt = $mysqli->prepare("SELECT gameID, gameTitle FROM games"))){
+                                  echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+                              }
+
+                              if(!$stmt->execute()){
+                                  echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                              }
+                              if(!$stmt->bind_result($id, $gname)){
+                                  echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                              }
+                              echo '<option value="NULL"></option>\n';
+                              while($stmt->fetch()){
+                                  echo '<option value=" '. $id . ' "> ' . $gname . '</option>\n';
+                              }
+                              $stmt->close();
+                              ?>
+                          </select></p>
+
 						  <p><input type="submit" class="btn btn-default" /></p>
 						</fieldset>
 						</div>
@@ -212,28 +231,7 @@ if($mysqli->connect_errno){
 		</div>
    </div>
 
-
-       <div class="row">
-		<div class = "col-xs-12 col-md-12">
-			<div class="row row-eq-height">
-				<div class="col-xs-2 col-md-2"></div>
-				<div class="col-xs-8 col-md-8 content-background">
-						<h2>Characters Appearing in XXXXXX</h2>
-						<!-- CHANGE THIS LATER, mention the selected game!!! -->
-						<table class ="table table-striped">
-							<tr>
-								<th>Name</th>
-							</tr>
-							<tr>
-								<td>NAME TEST</td>
-							</tr>
-						</table>
-				</div>
-				<div class="col-xs-2 col-md-2"></div>
-			</div>
-		</div>
-   </div>
-
+<!-- TODO: LOOK UP GAMES BASED ON CHARACTERS -->
                    <div class="row">
 		<div class = "col-xs-12 col-md-12">
 			<div class="row row-eq-height">
