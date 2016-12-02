@@ -8,4 +8,4 @@ Changes made to be double checked:
 * General Queries: All characters found in a game title can now be found.
 * characters.php -> Update and delete forms were fitted with drop-down lists of names that exist in the database.
 
-$mysqli = new mysqli("localhost", "root", "root", "nintendoDB");
+darlene for local testing: $mysqli = new mysqli("localhost", "root", "root", "nintendoDB");
