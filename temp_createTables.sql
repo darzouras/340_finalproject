@@ -33,7 +33,7 @@ CREATE TABLE characters (
 	characterID int(11) NOT NULL AUTO_INCREMENT,
 	name varchar(50) NOT NULL,
 	raceOrSpecies varchar(50),
-	homeland int(11) DEFAULT NULL,
+	homeland int(11),
 	UNIQUE KEY (name),
 	FOREIGN KEY (homeland) REFERENCES locations(locationID) ON DELETE SET NULL,
 	PRIMARY KEY (characterID)
@@ -47,7 +47,7 @@ CREATE TABLE games (
 	releaseDay int(2),
         releaseMonth int(2),
         releaseYear int(4),
-	releaseSystem int(11) NULL,
+	releaseSystem int(11),
 	UNIQUE KEY (gameTitle),
 	FOREIGN KEY (setting) REFERENCES locations(locationID) ON DELETE SET NULL,
 	FOREIGN KEY (releaseSystem) REFERENCES systems(systemID) ON DELETE SET NULL,
